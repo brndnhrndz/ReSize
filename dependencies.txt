@@ -1,0 +1,6 @@
+<SDKDDKVer.h>
+<windows.h>
+<shellapi.h>
+<strsafe.h>
+<tchar.h>
+<cmath>
