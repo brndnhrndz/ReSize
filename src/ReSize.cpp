@@ -44,7 +44,6 @@ int WINAPI wWinMain(
     CenterWindow(mainWnd, MOD_WND_SIZE, 10, 35);
 
     // Register hotkeys
-    // TODO [L]: Refactor.
     if (!RegisterHotKey(mainWnd, ID_HK_DEC_WND_SZ, MOD_CONTROL, '1') ||
         !RegisterHotKey(mainWnd, ID_HK_INC_WND_SZ, MOD_CONTROL, '2') ||
         !RegisterHotKey(mainWnd, ID_HK_CEN_WND, MOD_CONTROL, '3') ||

@@ -107,36 +107,36 @@ void HandleDestroyMessage() {
 }
 
 void HandleHotKeyMessage(HWND hWnd, WPARAM wParam, LPARAM lParam) {
-    HWND foregroundWnd = GetForegroundWindow();
+    HWND fgWnd = GetForegroundWindow();
 
-    if ((IsMainWindow(foregroundWnd) && wParam != ID_HK_CEN_WND) ||
-        (IsDesktopWindow(foregroundWnd))) {
+    if ((IsMainWindow(fgWnd) && wParam != ID_HK_CEN_WND) ||
+        (IsDesktopWindow(fgWnd))) {
         return;
     }
 
     switch (wParam) {
         case ID_HK_DEC_WND_SZ: {
-            ResizeWindow(foregroundWnd, -WND_CHANGE_SIZE, -WND_CHANGE_SIZE);
+            ResizeWindow(fgWnd, -WND_CHANGE_SIZE, -WND_CHANGE_SIZE);
             break;
         }
         case ID_HK_INC_WND_SZ: {
-            ResizeWindow(foregroundWnd, WND_CHANGE_SIZE, WND_CHANGE_SIZE);
+            ResizeWindow(fgWnd, WND_CHANGE_SIZE, WND_CHANGE_SIZE);
             break;
         }
         case ID_HK_CEN_WND: {
-            CenterWindow(foregroundWnd);
+            CenterWindow(fgWnd);
             break;
         }
         case ID_HK_ALT_CEN_WND_1: {
-            CenterWindow(foregroundWnd, MOD_WND_SIZE, 20, 30);
+            CenterWindow(fgWnd, MOD_WND_SIZE, 20, 30);
             break;
         }
         case ID_HK_ALT_CEN_WND_2: {
-            CenterWindow(foregroundWnd, MOD_WND_SIZE, 34, 50);
+            CenterWindow(fgWnd, MOD_WND_SIZE, 34, 50);
             break;
         }
         case ID_HK_ALT_CEN_WND_3: {
-            CenterWindow(foregroundWnd, MOD_WND_SIZE);
+            CenterWindow(fgWnd, MOD_WND_SIZE);
             break;
         }
         default: {
@@ -145,7 +145,7 @@ void HandleHotKeyMessage(HWND hWnd, WPARAM wParam, LPARAM lParam) {
     }
 }
 
-// TODO [H]: Paint GUI
+// TODO [L]: Paint GUI
 void HandlePaintMessage(HWND hWnd) {
     PAINTSTRUCT ps = {};
 
@@ -156,7 +156,6 @@ void HandlePaintMessage(HWND hWnd) {
 }
 
 void HandleTrayIconMessage(HWND hWnd, WPARAM wParam, LPARAM lParam) {
-    // LPARAM contains mouse/keyboard event associated with WM_TRAYICON msg
     switch (lParam) {
         case WM_RBUTTONUP: {
             ShowTrayIconMenu(hWnd);
@@ -249,7 +248,7 @@ void CreateTrayIcon(HWND hWnd) {
     Shell_NotifyIcon(NIM_ADD, &trayIconData);
 }
 
-// Is it better to have a menu created at compile time?
+// Is it better to have a menu created before WM_CREATE is processed?
 void CreateTrayIconMenu() {
     trayIconMenu = CreatePopupMenu();
     AppendMenu(trayIconMenu,
@@ -269,11 +268,14 @@ BOOL IsDesktopWindow(HWND hWnd) {
                  className,
                  (sizeof(className) / sizeof(TCHAR)));
 
+    // FALSE if window refered to by hWnd has class name
+    // that is neither Progman and WorkerW
     return !_tcscmp(className, _T("Progman")) ||
            !_tcscmp(className, _T("WorkerW"));
 }
 
 BOOL IsMainWindow(HWND hWnd) {
+    // TRUE if hWnd is a handle to mainWnd created in wWinMain
     return hWnd == FindWindow(MAIN_WND_CLASS_NAME, APP_TITLE);
 }
 
