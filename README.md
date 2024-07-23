@@ -1,6 +1,6 @@
 # ReSize
 
-A Windows application that resizes the chosen window via a designated hotkey.
+Windows application that resizes the chosen window via a designated hotkey.
 
 ## Prerequisites
 
