@@ -1,6 +1,6 @@
 # ReSize
 
-Simple program that resizes the selected window when a hotkey is pressed. I like certain windows to be certain sizes. This helped me scratch that itch. Being able to resize windows without leaving my keyboard feels pretty good too.
+A Windows application that resizes the chosen window via a designated hotkey.
 
 ## Prerequisites
 
